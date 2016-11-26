@@ -1,0 +1,164 @@
+<html>
+
+<head>
+<meta charset=”utf-8? />
+<meta name=”format-detection” content=”telephone=no” />
+<meta name=”msapplication-tap-highlight” content=”no” />
+<meta name=”viewport” content=”user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width” />
+<meta http-equiv=”Content-Security-Policy” content=”default-src * ‘unsafe-inline’; style-src ‘self’ ‘unsafe-inline’; media-src *” />
+<link rel="icon" href="icon.png">
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
+<title>New Page Here</title>
+
+</head>
+<style>
+	table, td{
+		border: solid;
+	}
+	
+	table{
+		border-color: red;
+	}
+	
+	td{
+		width: 16vw;
+		height: 16vw;
+	}
+	
+	.player{
+		background-color: red;
+	}
+	
+	.treasure{
+		background-color: yellow;
+	}
+	
+	
+	
+</style>
+
+<body>
+	<center>
+		<h1>Game</h1>
+		<p>Score: <text id="score">0</text></p>
+		
+		<table>
+			<tr><td id="11"></td><td id="12"></td><td id="13"></td><td id="14"></td><td id="15"></td></tr>
+			<tr><td id="21"></td><td id="22"></td><td id="23"></td><td id="24"></td><td id="25"></td></tr>
+			<tr><td id="31"></td><td id="32"></td><td id="33"></td><td id="34"></td><td id="35"></td></tr>
+			<tr><td id="41"></td><td id="42"></td><td id="43"></td><td id="44"></td><td id="45"></td></tr>
+			<tr><td id="51"></td><td id="52"></td><td id="53"></td><td id="54"></td><td id="55"></td></tr>
+		</table>
+		
+		<table>
+		<tr><td></td><td><button id="up">Up</button></td><td></td></tr>
+		<tr><td><button id="right">Right</button></td><td></td><td id="left">Left</td></tr>
+		<tr><td></td><td><button id="down">Down</button></td><td></td></tr>
+		</table>
+	</center>
+</body>
+
+<script>
+	var playerPosX;
+	var playerPosY;
+	
+	var treasurePosX;
+	var treasurePosY;
+	
+	var score = 0;
+
+	function getRandomNumber(intFrom, intTo){
+		return Math.floor((Math.random() * intTo) + intFrom);
+	}
+	
+	function getPlayerPosId(){
+		return playerPosY.toString() + playerPosX.toString();
+	}
+	
+	function updatePlayerPos(){
+		var idOfPos = playerPosY.toString() + playerPosX.toString();
+		$("#" + idOfPos).addClass("player");
+	}
+	
+	function spawnTreasure(){
+		treasurePosX = getRandomNumber(1, 5);
+		treasurePosY = getRandomNumber(1, 5);
+		var idOfPos = treasurePosY.toString() + treasurePosX.toString();
+		$("#" + idOfPos).addClass("treasure");
+	}
+	
+	
+	
+	function addPoints(){
+		if(playerPosX == treasurePosX && playerPosY == treasurePosY){
+			score += 1;
+			var idOfPos = treasurePosY.toString() + treasurePosX.toString();
+			$("#" + idOfPos).removeClass("treasure");
+			$("#score").html(score);
+			spawnTreasure();
+		}
+	}
+	
+	
+	playerPosX = getRandomNumber(1, 5);
+	playerPosY = getRandomNumber(1, 5);	
+	
+	$("#" + getPlayerPosId()).addClass("player");
+	
+	spawnTreasure();
+	
+	$("#up").click(
+		function(){
+			$("#" + getPlayerPosId()).removeClass("player");
+			playerPosY -= 1;
+			if(playerPosY == 0){
+				playerPosY = 5;
+			}
+			updatePlayerPos();
+			addPoints();
+		}
+	);
+	
+	$("#down").click(
+		function(){
+			$("#" + getPlayerPosId()).removeClass("player");
+			playerPosY += 1;
+			if(playerPosY == 6){
+				playerPosY = 1;
+			}
+			updatePlayerPos();
+			addPoints();
+		}
+	);
+	
+	$("#right").click(
+		function(){
+			$("#" + getPlayerPosId()).removeClass("player");
+			playerPosX += 1;
+			if(playerPosX == 6){
+				playerPosX = 1;
+			}
+			updatePlayerPos();
+			addPoints();
+		}
+	);
+	
+	$("#left").click(
+		function(){
+			$("#" + getPlayerPosId()).removeClass("player");
+			playerPosX -= 1;
+			if(playerPosX == 0){
+				playerPosX = 5;
+			}
+			updatePlayerPos();
+			addPoints();
+		}
+	);
+
+	
+	
+</script>
+
+</html>
